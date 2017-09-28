@@ -1,0 +1,179 @@
+<!-- begin:content -->
+        <div class="row">
+          <div class="col-md-12">
+			<ul class="nav nav-tabs">
+			  <li class="active hide"><a href="#profile-home" data-toggle="tab"><i class="fa fa-user"></i> Profile Update</a></li>
+			  <li class="hide"><a href="#profile-pasword" data-toggle="tab"><i class="fa fa-lock"></i> Password Update</a></li>
+			</ul>
+			<div id="myTabContent" class="tab-content">
+			
+			  <div class="tab-pane active in well" id="profile-home">
+			  
+				<form id="tab" class="profile_form">
+				 <label><span class="asterisks">*</span> indicates a required field</label>
+				  <h3>Personal Details</h3> 
+				  <div class="well" style="background-color:white;" >
+					<label><span class="asterisks">*</span> Title & Full Name</label>
+					<div class="row">
+						<div class="col-md-3">
+							<select id="title" name="title" data-rule-required="true" class="form-control input-lg">
+							<option value="" >- Title -</option>
+							<option value="Dr." <%= (title=="Dr.")?"selected":"" %>>Dr.</option>
+							<option value="Mdm." <%= (title=="Mdm.")?"selected":"" %>>Mdm.</option>
+							<option value="Mr." <%= (title=="Mr.")?"selected":"" %>>Mr.</option>
+							<option value="Mrs." <%= (title=="Mrs.")?"selected":"" %>>Mrs.</option>
+							<option value="Ms." <%= (title=="Ms.")?"selected":"" %>>Ms.</option>
+							</select>
+						</div>
+						<div class="col-md-9">							
+							<input type="text" id="name" name="name" placeholder="Name" class="form-control input-lg" value="<%= username %>" data-rule-required="true"/>
+							<input type="hidden" name="hidval" id="hidval" value="<%= u_id %>"/>
+						</div>
+					</div><br>
+					<label><span class="asterisks">*</span> Email</label>
+					<input type="text" id="email" name="email" placeholder="Email" class="form-control input-lg" value="<%= email %>"  data-rule-required="true" data-rule-email="true"/>
+					<br />
+					<label><span class="asterisks">*</span> Phone</label>
+					<input type="text" id="phone" name="phone" placeholder="Phone" class="form-control input-lg" value="<%= phone %>"  data-rule-required="true" />
+					<br />
+					<label>Year of Birth</label>
+					<div class="row">
+						
+						<div class="col-md-12">
+							<select name="byear" id="byear" class="form-control input-lg">
+							<option value="">-- Year --</option> 
+							 <% for(var i=1900; i < 2017; i++) {
+								var mydate = "";
+								if(i < 10)
+								mydate = "0"+i;
+								else
+								mydate = i;
+							%>
+							  
+							   <option value="<%= mydate %>" <%= mydate==byear?"selected":"" %> > <%= mydate %></option>
+							<% } %>
+							
+							</select>
+						</div>				
+					</div><br>
+				  </div>
+				  <% if(session.frontuser.type == "homeowner" && 1==2){ %>
+				  <h2>You're a home Owner!</h2>
+				  <div class="well" style="background-color:white;" >
+					<label><span class="asterisks">*</span> Address</label>
+					<textarea id="address" name="address" class="autosize-transition form-control input-lg" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 150px;" data-rule-required="true"><%= address %></textarea>					
+					<br />  
+					<label><span class="asterisks">*</span> Postal Code</label>
+					<input type="text" value="<%= postal_code %>"  id="postal_code" name="postal_code" onkeypress="return isNumber(event)" placeholder="Postal Code" class="form-control input-lg" data-rule-required="true" />
+					<br />
+				  </div>
+				  <% }
+				else if(session.frontuser.type == "agent")
+				{
+				%>
+				  <h3>Company Details</h3>
+				  <div class="well" style="background-color:white;" >
+					
+					<label class="agency_name">* Agency Name</label>
+					<input id="agency_name" name="agency_name" class="form-control input-lg agency_name" value="<%= agency_name%>"  type="text" data-rule-required="true" />
+					<label>CEA License No.</label>
+					<input value="<%= license_no %>" id="license_no"  name="license_no" class="form-control input-lg input-mask-license"  type="text" data-rule-required="true"/><br />
+					<label><span class="asterisks">*</span> CEA Salesperson No.</label>
+					<input value="<%= sales_no %>" id="sales_no" name="sales_no" class="form-control input-lg"  type="text" data-rule-required="true" /><br />
+					<label>Job Title</label>
+					<input value="<%= job_title %>" id="job_title" name="job_title" class="form-control input-lg"  type="text" />	<br />
+				  </div>
+				  <% } %>
+				  <div>
+					<button class="btn btn-block btn-success input-lg btnsave" data-value = "profile">Save Profile Changes</button>
+				  </div>
+				</form>
+			  </div>
+			  <div class="tab-pane fade well" id="profile-pasword">
+			  <label><span class="asterisks">*</span> indicates a required field</label>
+				<form id="tab2" class="password_form">
+				  <h2>Update your password here!</h2>
+				  <div class="well" style="background-color:white;" >
+					<label><span class="asterisks">*</span> Current Password</label>
+					<input type="password" id="currentpassword" name="currentpassword" placeholder="Current Password" class="form-control input-lg" data-rule-required="true"  /> <br />
+					<label><span class="asterisks">*</span> New Password</label>
+					<input type="password" id="password" name="password" placeholder="New Password" class="form-control input-lg" data-rule-required="true" /><br />
+					<label><span class="asterisks">*</span> Confirm New Password</label>
+					<input type="password" id="confirmpassword" name="confirmpassword" placeholder="Confirm Password" class="form-control input-lg" data-rule-required="true"  data-rule-equalto=#password /> <br />		
+				  </div>
+				  <div>
+					<button class="btn btn-block btn-success input-lg btnsave" data-value = "password">Update Password</button>
+				  </div>		  
+				</form>
+			  </div>
+		  </div>
+			
+
+          </div>
+        </div>
+    
+    <!-- end:content -->
+    <script>
+    $(document).on("click",'.btnsave',function(e){
+e.preventDefault();
+var myobj = "";
+var validation_result = "";
+var clicked_obj = $(this);
+if($(this).attr('data-value') == "profile")
+{
+	myobj = $('.profile_form').serializeObject();
+	validation_result = $('.profile_form').valid();
+	if($('.profile_form .duplicate').length >0 )
+	{
+		validation_result = false;
+		$('.profile_form .duplicate').show();
+	}
+}
+else if($(this).attr('data-value') == "password")
+{
+	myobj = $('.password_form').serializeObject();
+	validation_result = $('.password_form').valid();
+	if($('.password_form .duplicate').length >0 )
+	{
+		validation_result = false;
+		$('.password_form .duplicate').show();
+		
+	}
+}
+if(validation_result  === true)
+{
+	myobj['save_for'] = $(this).attr('data-value');
+	$.ajax({
+		url	 		: "/myaccount/save_profile",
+		type 		: "POST",
+		contentType : "application/json",
+		dataType: "json",
+		cache: false,
+		processData : false,
+		data		: JSON.stringify(myobj),
+		success		: function(res){
+			
+			if(res.code == "1")
+			{
+				bootbox.alert(res.error, function(result) {
+		
+					});
+				//$('#'+formname+' .errlabel').html('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><strong>'+res.error+'</strong><br></div>');
+			}
+			else 
+			{
+				bootbox.alert("Changes Saved!", function(result) {
+						$('.password_form input').val('');
+					});
+				//$('#'+formname+' .errlabel').html('<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><strong>'+res.msg+'</strong><br></div>');
+			}
+		}
+	});
+}
+	
+});
+
+    </script>
+
+	
+	
